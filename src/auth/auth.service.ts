@@ -56,7 +56,7 @@ export class AuthService {
     return this.signToken(user.id, user.email);
   }
 
-  signToken(userId: number, email: string) : { access_token: Promise<string> } {
+  signToken(userId: number, email: string) : Promise<{access_token: string}> {
     const payload = {
       sub: userId,
       email: email
@@ -66,9 +66,9 @@ export class AuthService {
       expiresIn: "1d",
       secret: secret
     });
-    return {
-      access_token: token
-    };
+    return token.then((t) => {
+      return {access_token: t};
+    });
   }
 
 }
